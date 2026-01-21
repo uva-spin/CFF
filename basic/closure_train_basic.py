@@ -17,7 +17,7 @@ simultaneously fitting:
   - unpolarized cross section XS(phi)
   - beam spin asymmetry BSA(phi)
 
-Key improvement vs closure_train_replicas.py
+Key improvement vs closure_train_basic.py
 --------------------------------------------
 This version makes the loss well-conditioned even when the dataset uncertainties
 are set to zero (XS_err=BSA_err=0). This allows you to start your closure test
