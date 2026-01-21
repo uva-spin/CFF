@@ -4,6 +4,13 @@
 closure_train_basic.py  (Python 3.9+)
 
 Here is a basic example of ReH and ImH extraction using xsec and bsa
+note that modifications were made to not fail on GPU training but the forward model + finite-difference gradient are
+built on tf.numpy_function, so those parts will always run on CPU and require Python. That means:
+
+    you won’t get true GPU-speed for the physics forward pass, and
+
+    you can’t use XLA for the training step unless you rewrite the forward/grad in pure TensorFlow ops or as a compiled custom op.
+
 ----
 Train an ensemble of replica fits to extract ReH and ImH at *fixed kinematics* by
 simultaneously fitting:
@@ -40,7 +47,7 @@ Outputs
 
 Run
 ---
-python closure_train_replicas.py
+python closure_train_basic.py
 """
 
 import json
@@ -51,6 +58,7 @@ from typing import Optional, Tuple
 
 import numpy as np
 import tensorflow as tf
+tf.config.optimizer.set_jit(False)
 
 warnings.filterwarnings("ignore", message="urllib3 v2 only supports OpenSSL*")
 
@@ -405,7 +413,7 @@ def main() -> None:
         else:
             opt = tf.keras.optimizers.Adam(learning_rate=float(LEARNING_RATE))
 
-        model.compile(optimizer=opt, loss=loss_fn, run_eagerly=False)
+        model.compile(optimizer=opt, loss=loss_fn, run_eagerly=False,jit_compile=False)
 
         callbacks = [
             tf.keras.callbacks.TerminateOnNaN(),
