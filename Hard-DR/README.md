@@ -123,11 +123,17 @@ This example intentionally keeps things simple so you can see the mechanics. If 
 Instead of training a network to output both $\Re\mathcal{H}$ and $\Im\mathcal{H}$ independently, we:
 
 1. Predict $\Im\mathcal{H}$ on the grid (and optionally fit/learn $C_0$).
-2. Compute:
-   $$\Re\boldsymbol{\mathcal{H}}_{\text{pred}}=
-   C_0\,\mathbf{1} + \mathbf{K}\,\Im\boldsymbol{\mathcal{H}}_{\text{pred}}.
-   $$
-4. Compare $(\Im\mathcal{H}_{\text{pred}}, \Re\mathcal{H}_{\text{pred}})$ against the dataset targets.
+2. Compute
+$$
+\Re \mathbf{H}_{\mathrm{pred}}
+=
+C_0\,\mathbf{1}
++
+\mathbf{K}\,\Im \mathbf{H}_{\mathrm{pred}} .
+$$
+
+3. Compare the predicted $\Im \mathcal{H}$ and $\Re \mathcal{H}$ values against the dataset targets.
+
 
 This forces every prediction to satisfy the discretized DR by construction — hence “Hard‑DR”.
 
