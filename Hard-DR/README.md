@@ -29,17 +29,14 @@ Typical files in this example:
 
 For the (crossing-even) CFF **ℋ**, a commonly used fixed‑t dispersion form relates its real and imaginary parts with a subtraction constant:
 
-$$
-\Re \mathcal{H}(\xi,t)
-=
+$$\Re \mathcal{H}(\xi,t)=
 C_0(t)
 +
 \frac{1}{\pi}\,\mathrm{PV}\!\int_{0}^{1} d\xi'\;
 \Im \mathcal{H}(\xi',t)\,
 \left(
 \frac{1}{\xi-\xi'}-\frac{1}{\xi+\xi'}
-\right).
-$$
+\right).$$
 
 - **PV** denotes the **Cauchy principal value** (the kernel is singular at $\xi'=\xi$).
 - $C_0(t)$ is the **subtraction constant** (independent of $\xi$ at fixed $t$).
