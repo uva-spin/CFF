@@ -130,8 +130,9 @@ $$
 =
 C_0\,\mathbf{1}
 +
-\mathbf{K}\,\Im \mathbf{H}_{\mathrm{pred}} .
+\mathbf{K}\,\Im \mathbf{H}_{\mathrm{pred}}
 $$
+
 
 
 3. Compare the predicted $\Im \mathcal{H}$ and $\Re \mathcal{H}$ values against the dataset targets.
