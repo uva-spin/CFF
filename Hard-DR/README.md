@@ -63,26 +63,20 @@ $$
 
 Define the DR kernel (for targets $\xi_i$ and sources $\xi_j$):
 
-$$
-K_{ij}
-=
-\frac{w_j}{\pi}\left(
+$$K_{ij}=\frac{w_j}{\pi}\left(
 \frac{1}{\xi_i-\xi_j}
 -
 \frac{1}{\xi_i+\xi_j}
 \right),
-\qquad i,j=1,\dots,N.
-$$
+\qquad i,j=1,\dots,N.$$
 
 Then the discretized DR becomes:
 
-$$
-\Re\mathcal{H}(\xi_i)
+$$\Re\mathcal{H}(\xi_i)
 \approx
 C_0
 +
-\sum_{j=1}^N K_{ij}\,\Im\mathcal{H}(\xi_j).
-$$
+\sum_{j=1}^N K_{ij}\,\Im\mathcal{H}(\xi_j).$$
 
 In vector form:
 
