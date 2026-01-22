@@ -49,7 +49,7 @@ In this “Hard‑DR” approach, we do **not** fit $\Re\mathcal{H}$ freely; we 
 
 ### Step 1: choose a ξ grid and quadrature weights
 
-Let the ξ grid be points $\{\xi_j\}_{j=1}^{N}$, with quadrature weights $\{w_j\}_{j=1}^{N}$ for integrals on $[0,1]$.
+Let the ξ grid be points ${\xi_j}_{j=1}^{N}$, with quadrature weights $\{w_j\}_{j=1}^{N}$ for integrals on $[0,1]$.
 
 A generic quadrature approximation is:
 
