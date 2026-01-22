@@ -1,147 +1,32 @@
-# Hard-DR example — enforcing a fixed‑t dispersion relation (ImH + C0 → ReH)
+## Numerical discretization: why `ReH = C0 + K @ ImH`
 
-This folder contains a **closure-test pipeline** that demonstrates a “Hard‑DR” extraction
-of the DVCS Compton Form Factor (CFF) **𝓗**, where:
+In the continuum, the Hard-DR step is a (Cauchy principal value) dispersion relation of the form
 
-- **Im𝓗(ξ)** is learned (or fitted) on a set of ξ nodes, and
-- **Re𝓗(ξ)** is **not fitted independently** — it is computed from Im𝓗 through a
-  **fixed‑t dispersion relation (DR)** plus a **subtraction constant**.
+ReH(ξ) = C0 + p.v. ∫ K(ξ, ξ') ImH(ξ') dξ' .
 
-In other words, the learning problem is:
-> fit **Im𝓗** and **C₀**, and compute **Re𝓗** from DR.
+To compute this numerically, we discretize the integral operator with a quadrature / Nyström method:
 
-This makes the extraction **non‑local in ξ**: Re𝓗 at one ξ depends on Im𝓗 across the whole ξ grid.
+1. Choose quadrature nodes {ξ_j} on [0, 1] and weights {w_j}.
+2. Evaluate the relation at target points {ξ_i}.
+3. Replace the integral by a weighted sum:
 
----
+   ReH(ξ_i) ≈ C0 + Σ_j w_j K(ξ_i, ξ_j) ImH(ξ_j).
 
-## What “ReH(ξ) = C₀ + K · ImH” means (physics origin)
+This turns the integral operator into a matrix acting on a vector of sampled values.
+Define K_ij = w_j K(ξ_i, ξ_j), ImH_j = ImH(ξ_j), ReH_i = ReH(ξ_i), and 1_i = 1.
+Then:
 
-### Fixed‑t DR (continuum form)
+   ReH ≈ C0 * 1 + K * ImH .
 
-At leading twist and fixed momentum transfer *t* (and suppressing (t, Q²) labels for brevity),
-a standard once‑subtracted dispersion relation for a CFF 𝓖 gives:
+### Principal value (PV) handling
+Because the kernel is singular on ξ = ξ', the discretization must account for the PV.
+Common approaches include:
+- subtracting the singularity analytically and quadrature on the remaining smooth integrand;
+- using quadrature rules designed for Cauchy principal value integrals;
+- grid placement strategies (e.g. midpoint/trapezoid variants) that avoid evaluating at the singularity.
 
-\[
-\mathrm{Re}\,\mathcal{G}(\xi)
-=
-C_{\mathcal{G}}
-+
-\frac{1}{\pi}\,\mathrm{PV}\!\int_0^1 d\xi'\;
-\mathrm{Im}\,\mathcal{G}(\xi')\left[\frac{1}{\xi-\xi'} \mp \frac{1}{\xi+\xi'}\right].
-\]
-
-- The **PV** (principal value) is required because the kernel is singular at \(\xi'=\xi\).
-- For \(\mathcal{G}\in\{\mathcal{H},\mathcal{E}\}\) the **minus** sign is used in the bracket;
-  for \(\widetilde{\mathcal{H}},\widetilde{\mathcal{E}}\) the sign differs.
-- \(C_{\mathcal{G}}\) is the **subtraction constant**, sometimes written as \(\Delta(t)\) for 𝓗,
-  and is commonly discussed in connection with the **GPD D‑term** and related mechanical/pressure
-  interpretations.
-
-**This example uses that relation for \(\mathcal{H}\)**.
-
-> Reference: see Eq. (5) in Moutarde et al., EPJ C (2019), arXiv:1905.02089.  
-> A compact PV/subtraction‑constant form and D‑term discussion is also shown in Kumerički (Low‑x 2025).
-
----
-
-## From the integral to a discretized DR kernel (what the code enforces)
-
-In practice we do not know \(\mathrm{Im}\,\mathcal{H}(\xi')\) for all \(\xi'\in(0,1)\).
-Instead we represent it on a finite set of **B ξ nodes**:
-
-\[
-\xi_1,\xi_2,\ldots,\xi_B.
-\]
-
-We then approximate the PV integral with a quadrature rule on the same grid, i.e.
-
-\[
-\mathrm{PV}\!\int_0^1 d\xi' \; f(\xi') \;\approx\; \sum_{j=1}^{B} w_j f(\xi_j),
-\]
-
-which yields, for each node \(i\),
-
-\[
-\mathrm{Re}\,\mathcal{H}(\xi_i)
-=
-C_0
-+
-\sum_{j=1}^{B} K_{ij}\, \mathrm{Im}\,\mathcal{H}(\xi_j),
-\]
-
-with the **discretized DR kernel matrix**
-
-\[
-K_{ij}
-=
-\frac{1}{\pi}\,w_j\left(\frac{1}{\xi_i-\xi_j}-\frac{1}{\xi_i+\xi_j}\right),
-\qquad
-K_{ii}\;\text{handled via PV (typically set to 0 in the discrete sum).}
-\]
-
-In vector form:
-
-\[
-\boxed{\;\mathrm{Re}\,\mathbf{H} = C_0\,\mathbf{1} + K\cdot \mathrm{Im}\,\mathbf{H}\;}
-\]
-
-This is exactly the statement “ReH = C0 + K·ImH” used throughout the Hard‑DR example.
-
-### Why multiple ξ points are mandatory
-Because ReH(ξᵢ) depends on **ImH at all ξⱼ**, you cannot run Hard‑DR on a single ξ bin.
-The method requires a **multi‑bin dataset**.
-
----
-
-## What each script does
-
-### 1) `generator.py` — generate a multi‑bin closure dataset
-Creates pseudodata for XS(ϕ) and BSA(ϕ) across multiple ξ (xB) bins at fixed (t, Q², beam energy).
-
-Typical workflow:
-- Choose or auto‑generate a ξ (xB) grid and a shared ϕ grid per bin
-- Define **truth** ImH(ξ) (often from KM15 via `gepard`, or a toy truth)
-- Compute truth ReH(ξ) using the **same discretized DR kernel** used in training:
-  \(\mathrm{ReH}=C_0+K\cdot\mathrm{ImH}\)
-- Generate XS(ϕ), BSA(ϕ) using the BKM forward model
-- Write NPZ/CSV/JSON outputs under `<OUT_DIR>/data`
-
----
-
-### 2) `HardDR_training.py` — train Hard‑DR replicas
-Trains an ensemble of replicas where:
-- the network (or parameterization) learns **ImH(ξ)** on the ξ grid,
-- a scalar **C0** is learned as the subtraction constant,
-- **ReH(ξ)** is computed deterministically via the discretized DR kernel.
-
-The fit is driven by matching:
-- XS(ϕ) and BSA(ϕ) pseudodata
-using the BKM forward model, while enforcing DR *hard*.
-
-Outputs:
-- replica weights/models + metadata
-- training histories
-
-(Exact paths and naming are set in the USER CONFIG section at the top of the script.)
-
----
-
-### 3) `evaluation.py` — evaluate + plot
-Loads replicas and produces:
-- mean ± 1σ bands for ImH(ξ) and ReH(ξ)
-- diagnostics for C0 and replica spread
-- comparisons of predicted vs truth XS(ϕ), BSA(ϕ) across bins
-
-Outputs are written under the evaluation directory specified in the script config.
-
----
-
-## Quickstart
-
-From this directory (or repo root), run:
-
-```bash
-python generator.py
-python HardDR_training.py
-python evaluation.py
+### Suggested numerical-method references
+- Nyström / quadrature discretization of integral equations (matrix form arises from weights × kernel evaluation).
+- Numerical evaluation of Hilbert transforms / Cauchy principal value integrals (PV-safe quadrature schemes).
+- Numerical Kramers–Kronig (dispersion-relation) evaluation as an application of PV/Hilbert quadrature.
 
