@@ -64,8 +64,7 @@ $$
 Define the DR kernel (for targets $\xi_i$ and sources $\xi_j$):
 
 $$K_{ij}=\frac{w_j}{\pi}\left(
-\frac{1}{\xi_i-\xi_j}
--
+\frac{1}{\xi_i-\xi_j}-
 \frac{1}{\xi_i+\xi_j}
 \right),
 \qquad i,j=1,\dots,N.$$
