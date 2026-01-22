@@ -123,7 +123,8 @@ This example intentionally keeps things simple so you can see the mechanics. If 
 Instead of training a network to output both $\Re\mathcal{H}$ and $\Im\mathcal{H}$ independently, we:
 
 1. Predict $\Im\mathcal{H}$ on the grid (and optionally fit/learn $C_0$).
-2. Compute
+
+2. Compute the real part using the discretized dispersion relation:
 
 $$
 \Re \mathbf{H}_{\mathrm{pred}}
@@ -132,8 +133,6 @@ C_0\,\mathbf{1}
 +
 \mathbf{K}\,\Im \mathbf{H}_{\mathrm{pred}}
 $$
-
-
 
 3. Compare the predicted $\Im \mathcal{H}$ and $\Re \mathcal{H}$ values against the dataset targets.
 
