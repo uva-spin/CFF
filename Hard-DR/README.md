@@ -124,7 +124,9 @@ Instead of training a network to output both $\Re\mathcal{H}$ and $\Im\mathcal{H
 
 1. Predict $\Im\mathcal{H}$ on the grid (and optionally fit/learn $C_0$).
 2. Compute
-$$\Re \mathbf{H}_{\mathrm{pred}}
+
+$$
+\Re \mathbf{H}_{\mathrm{pred}}
 =
 C_0\,\mathbf{1}
 +
