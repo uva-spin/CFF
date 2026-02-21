@@ -186,7 +186,7 @@ Where:
 - \(U \in \mathbb{R}^{(5N)\times 8}\): orthonormal basis in **observable space**
 - \(\Sigma = \text{diag}(\sigma_1,\ldots,\sigma_8)\): singular values, ordered \(\sigma_1 \ge \cdots \ge \sigma_8 \ge 0\)
 - \(V \in \mathbb{R}^{8\times 8}\): orthonormal basis in **parameter space**
-
+ 
 ### Core interpretation
 
 Let \(v_i\) be the \(i\)-th column of \(V\). Then:
