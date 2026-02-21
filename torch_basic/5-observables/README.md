@@ -14,7 +14,7 @@ from the **5-observable** set:
 - **TSA**: target-spin asymmetry (longitudinal, analyzing power)  
 - **DSA**: double-spin asymmetry (beam helicity ⨉ longitudinal target, analyzing power)
 
-The main utility script here is primarily just an example of how we can try to determine if the data
+The main utility script here is primarily just an example of how one can try to determine if the data
 we are testing with is at least a good starting point for the given constraints we have to work with.
 
 This tool answers questions like:
@@ -33,7 +33,7 @@ This tool answers questions like:
 
 1. [Model and notation](#model-and-notation)  
 2. [What the Jacobian is](#what-the-jacobian-is)  
-3. [How we compute the Jacobian (finite differences)](#how-we-compute-the-jacobian-finite-differences)  
+3. [How to compute the Jacobian (finite differences)](#how-to-compute-the-jacobian-finite-differences)  
 4. [Why SVD and what it means](#why-svd-and-what-it-means)  
 5. [How to interpret singular values](#how-to-interpret-singular-values)  
 6. [How to interpret the weakest direction vector](#how-to-interpret-the-weakest-direction-vector)  
@@ -136,9 +136,9 @@ This is the key relationship that makes SVD useful: it explains what directions 
 
 ---
 
-## How we compute the Jacobian (finite differences)
+## How to compute the Jacobian (finite differences)
 
-Because the forward model is complicated, we compute derivatives numerically using **central finite differences**:
+Because the forward model is complicated, compute derivatives numerically using **central finite differences**:
 
 $$
 \frac{\partial F}{\partial p_j} \approx
@@ -154,7 +154,7 @@ Where \(e_j\) is the unit vector in direction \(j\).
 
 ### Choosing the step size
 
-We use a relative step:
+Use a relative step:
 
 $$
 \epsilon_j = \text{FD\_REL\_EPS}\cdot \max(1,|p_j|)
@@ -175,7 +175,7 @@ Typical values that usually work:
 
 ## Why SVD and what it means
 
-We compute the SVD of the Jacobian:
+Compute the SVD of the Jacobian:
 
 $$
 J = U\,\Sigma\,V^T
