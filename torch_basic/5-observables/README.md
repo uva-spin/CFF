@@ -1,5 +1,9 @@
 # DVCS CFF Extraction: Jacobian + SVD Diagnostic Guide (XS/BSA/BCA/TSA/DSA)
 
+The example here is similar to what is in the TF basic example.  You first generate the data, run the training script
+and the run the evaluation.  Afterward you can look at what is in the evaluation output and then study the Jacobian by
+running the Jacobian script.
+
 This is a **diagnostic** guide for using a Jacobian + Singular Value Decomposition (SVD)
 analysis to understand **identifiability**, **degeneracies**, and **conditioning** when extracting **8 CFF components**
 from the **5-observable** set:
