@@ -8,7 +8,7 @@ This is a **diagnostic** guide for using a Jacobian + Singular Value Decompositi
 analysis to understand **identifiability**, **degeneracies**, and **conditioning** when extracting **8 CFF components**
 from the **5-observable** set:
 
-- **XS**: unpolarized cross section  
+- **XS**: unpolarized cross section 
 - **BSA**: beam-spin asymmetry (analyzing power)
 - **BCA**: beam-charge asymmetry (analyzing power)  
 - **TSA**: target-spin asymmetry (longitudinal, analyzing power)  
