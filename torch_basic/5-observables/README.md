@@ -9,7 +9,7 @@ analysis to understand **identifiability**, **degeneracies**, and **conditioning
 from the **5-observable** set:
 
 - **XS**: unpolarized cross section  
-- **BSA**: beam-spin asymmetry (analyzing power)  
+- **BSA**: beam-spin asymmetry (analyzing power)
 - **BCA**: beam-charge asymmetry (analyzing power)  
 - **TSA**: target-spin asymmetry (longitudinal, analyzing power)  
 - **DSA**: double-spin asymmetry (beam helicity ⨉ longitudinal target, analyzing power)
