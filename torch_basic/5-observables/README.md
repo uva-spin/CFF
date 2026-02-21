@@ -1,6 +1,6 @@
 # DVCS CFF Extraction: Jacobian + SVD Diagnostic Guide (XS/BSA/BCA/TSA/DSA)
 
-This README is a **math-forward, diagnostic-first** guide for using a Jacobian + Singular Value Decomposition (SVD)
+This is a **diagnostic** guide for using a Jacobian + Singular Value Decomposition (SVD)
 analysis to understand **identifiability**, **degeneracies**, and **conditioning** when extracting **8 CFF components**
 from the **5-observable** set:
 
@@ -9,6 +9,9 @@ from the **5-observable** set:
 - **BCA**: beam-charge asymmetry (analyzing power)  
 - **TSA**: target-spin asymmetry (longitudinal, analyzing power)  
 - **DSA**: double-spin asymmetry (beam helicity ⨉ longitudinal target, analyzing power)
+
+The main utility script here is primarily just an example of how we can try to determine if the data
+we are testing with is at least a good starting point for the given constraints we have to work with.
 
 This tool answers questions like:
 
