@@ -521,7 +521,7 @@ That’s why small \(\sigma_i\) implies huge uncertainty along that direction.
 
 ---
 
-## TL;DR
+## Summary
 
 - The Jacobian tells you *how observables respond to CFF changes*.
 - SVD decomposes the inverse problem into orthogonal parameter combinations ranked by how observable they are.
